@@ -1,0 +1,9 @@
+.venv/
+venv/
+__pycache__/
+*.pyc
+
+uploads/*
+resume_matcher.db
+
+.env

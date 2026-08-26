@@ -1,0 +1,334 @@
+  
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+ 
+    <title>Resume Result</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+
+<body>
+
+
+<!-- ================= NAVBAR ================= -->
+
+<nav>
+
+    <div class="logo">
+        AI Resume Matcher
+    </div>
+
+    <div class="nav-links">
+
+        <a href="/">
+            Home
+        </a>
+
+        <a href="/history">
+            History
+        </a>
+
+    </div>
+
+</nav>
+
+
+
+<!-- ================= MAIN CONTAINER ================= -->
+
+<div class="container">
+
+
+    <!-- ================= HEADER ================= -->
+
+    <div class="result-header">
+
+        <h1>
+            Resume Analysis
+        </h1>
+
+        <p class="resume-name">
+            {{ result.resume_name }}
+        </p>
+
+        <p class="job-name">
+            Job:
+            {{ result.job_title }}
+        </p>
+
+    </div>
+
+
+
+    <!-- ================= OVERALL SCORE ================= -->
+
+    <div class="score-card">
+
+
+        <div class="score-circle"
+             style="--score: {{ result.score }};">
+
+            <div class="circle-inner">
+
+                <span>
+                    {{ result.score }}%
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <h2>
+            Overall Match Score
+        </h2>
+
+
+        <p class="recommendation">
+            {{ result.recommendation }}
+        </p>
+
+
+    </div>
+
+
+
+    <!-- ================= SCORE CARDS ================= -->
+
+    <div class="score-grid">
+
+
+        <div class="small-card">
+
+            <h3>
+                Skill Match
+            </h3>
+
+            <div class="progress-container">
+
+                <div class="progress"
+                     style="width: {{ result.skill_score }}%;">
+                </div>
+
+            </div>
+
+            <strong>
+                {{ result.skill_score }}%
+            </strong>
+
+        </div>
+
+
+
+        <div class="small-card">
+
+            <h3>
+                Text Similarity
+            </h3>
+
+            <div class="progress-container">
+
+                <div class="progress"
+                     style="width: {{ result.similarity_score }}%;">
+                </div>
+
+            </div>
+
+            <strong>
+                {{ result.similarity_score }}%
+            </strong>
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- ================= MATCHED / MISSING ================= -->
+
+    <div class="two-column">
+
+
+        <!-- MATCHED -->
+
+        <div class="card matched-card">
+
+            <h2>
+                Matched Skills
+            </h2>
+
+
+            {% if result.matched_skills %}
+
+                <div class="skills-container">
+
+                    {% for skill in result.matched_skills %}
+
+                        <span class="skill">
+                            ✓ {{ skill }}
+                        </span>
+
+                    {% endfor %}
+
+                </div>
+
+            {% else %}
+
+                <p class="empty">
+                    No matching skills found.
+                </p>
+
+            {% endif %}
+
+        </div>
+
+
+
+        <!-- MISSING -->
+
+        <div class="card missing-card">
+
+            <h2>
+                Missing Skills
+            </h2>
+
+
+            {% if result.missing_skills %}
+
+                <div class="skills-container">
+
+                    {% for skill in result.missing_skills %}
+
+                        <span class="missing">
+                            ✗ {{ skill }}
+                        </span>
+
+                    {% endfor %}
+
+                </div>
+
+            {% else %}
+
+                <p class="empty">
+                    No major missing skills.
+                </p>
+
+            {% endif %}
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- ================= RESUME SKILLS ================= -->
+
+    <div class="card full-card">
+
+        <h2>
+            Skills Found in Resume
+        </h2>
+
+
+        {% if result.resume_skills %}
+
+            <div class="skills-container">
+
+                {% for skill in result.resume_skills %}
+
+                    <span class="skill">
+                        {{ skill }}
+                    </span>
+
+                {% endfor %}
+
+            </div>
+
+        {% else %}
+
+            <p class="empty">
+                No skills detected in resume.
+            </p>
+
+        {% endif %}
+
+    </div>
+
+
+
+    <!-- ================= JOB SKILLS ================= -->
+
+    <div class="card full-card">
+
+        <h2>
+            Skills Required by Job
+        </h2>
+
+
+        {% if result.job_skills %}
+
+            <div class="skills-container">
+
+                {% for skill in result.job_skills %}
+
+                    <span class="job-skill">
+                        {{ skill }}
+                    </span>
+
+                {% endfor %}
+
+            </div>
+
+        {% else %}
+
+            <p class="empty">
+                No specific skills found.
+            </p>
+
+        {% endif %}
+
+    </div>
+
+
+
+    <!-- ================= BUTTONS ================= -->
+
+    <div class="buttons">
+
+        <a href="/"
+           class="button">
+
+            Analyze Another Resume
+
+        </a>
+
+
+        <a href="/history"
+           class="button secondary">
+
+            View History
+
+        </a>
+
+    </div>
+
+
+</div>
+
+
+</body>
+
+</html>
+ 

@@ -1,0 +1,672 @@
+ <!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        AI Resume Scoring & Job Matching
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+
+</head>
+
+
+<body>
+
+
+<!-- ================= NAVBAR ================= -->
+
+<nav class="navbar">
+
+    <div class="logo">
+        AI Resume Matcher
+    </div>
+
+    <div class="nav-links">
+
+        <a href="/" class="active">
+            Home
+        </a>
+
+        <a href="/history">
+            History
+        </a>
+
+    </div>
+
+</nav>
+
+
+
+<!-- ================= MAIN ================= -->
+
+<main class="container">
+
+
+    <!-- ================= HERO ================= -->
+
+    <section class="hero">
+
+        <div class="badge">
+            AI POWERED RESUME ANALYZER
+        </div>
+
+        <h1>
+            AI Resume Scoring
+            <span>&</span>
+            Job Matching
+        </h1>
+
+        <p>
+            Upload your resume, enter a job description,
+            and discover how well your skills match the job.
+        </p>
+
+    </section>
+
+
+
+    <!-- ================= FORM CARD ================= -->
+
+    <section
+        class="card form-card"
+        id="resume-form"
+    >
+
+        <div class="card-title">
+
+            <h2>
+                Analyze Your Resume
+            </h2>
+
+            <p>
+                Enter the details below to get your AI-based
+                resume matching score.
+            </p>
+
+        </div>
+
+
+        <form
+            action="/analyze"
+            method="POST"
+            enctype="multipart/form-data"
+            id="resumeForm"
+        >
+
+
+            <!-- JOB TITLE -->
+
+            <div class="form-group">
+
+                <label for="job_title">
+                    Job Title
+                </label>
+
+                <input
+                    type="text"
+                    id="job_title"
+                    name="job_title"
+                    placeholder="Example: Python Developer"
+                    required
+                >
+
+            </div>
+
+
+
+            <!-- RESUME -->
+
+            <div class="form-group">
+
+                <label for="resume">
+                    Upload Resume
+                </label>
+
+                <div
+                    class="upload-area"
+                    id="uploadArea"
+                    onclick="openFileSelector()"
+                >
+
+                    <div class="upload-icon">
+                        📄
+                    </div>
+
+                    <h3>
+                        Upload your PDF resume
+                    </h3>
+
+                    <p>
+                        Click here or choose a PDF file
+                    </p>
+
+                    <span
+                        class="file-name"
+                        id="fileName"
+                    >
+                        No file selected
+                    </span>
+
+                </div>
+
+                <input
+                    type="file"
+                    id="resume"
+                    name="resume"
+                    accept=".pdf"
+                    required
+                    hidden
+                    onchange="showFileName()"
+                >
+
+            </div>
+
+
+
+            <!-- JOB DESCRIPTION -->
+
+            <div class="form-group">
+
+                <label for="job_description">
+                    Job Description
+                </label>
+
+                <textarea
+                    id="job_description"
+                    name="job_description"
+                    placeholder="Paste the complete job description here..."
+                    required
+                ></textarea>
+
+                <div class="character-info">
+                    Enter the skills and requirements mentioned
+                    in the job description.
+                </div>
+
+            </div>
+
+
+
+            <!-- ANALYZE BUTTON -->
+
+            <button
+                type="submit"
+                class="analyze-button"
+                id="analyzeButton"
+            >
+
+                <span>
+                    🔍
+                </span>
+
+                Analyze Resume
+
+            </button>
+
+
+        </form>
+
+    </section>
+
+
+
+    <!-- ================= THREE STEPS ================= -->
+
+    <section class="info-section">
+
+
+        <!-- STEP 1 -->
+
+        <div
+            class="info-box"
+            onclick="stepOne()"
+            title="Click to upload your resume"
+        >
+
+            <div class="step-number">
+                01
+            </div>
+
+            <div class="step-icon">
+                📄
+            </div>
+
+            <h3>
+                Upload Resume
+            </h3>
+
+            <p>
+                Upload your PDF resume.
+            </p>
+
+            <button
+                type="button"
+                class="step-button"
+            >
+                Upload Now →
+            </button>
+
+        </div>
+
+
+
+        <!-- STEP 2 -->
+
+        <div
+            class="info-box"
+            onclick="stepTwo()"
+            title="Click to enter job description"
+        >
+
+            <div class="step-number">
+                02
+            </div>
+
+            <div class="step-icon">
+                📝
+            </div>
+
+            <h3>
+                Add Job Description
+            </h3>
+
+            <p>
+                Enter the job description.
+            </p>
+
+            <button
+                type="button"
+                class="step-button"
+            >
+                Enter Details →
+            </button>
+
+        </div>
+
+
+
+        <!-- STEP 3 -->
+
+        <div
+            class="info-box"
+            onclick="stepThree()"
+            title="Click to analyze your resume"
+        >
+
+            <div class="step-number">
+                03
+            </div>
+
+            <div class="step-icon">
+                🤖
+            </div>
+
+            <h3>
+                Get AI Score
+            </h3>
+
+            <p>
+                Get your AI-based score.
+            </p>
+
+            <button
+                type="button"
+                class="step-button"
+            >
+                Analyze Now →
+            </button>
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- ================= FEATURES ================= -->
+
+    <section class="features">
+
+
+        <div class="feature">
+
+            <div class="feature-icon">
+                ✓
+            </div>
+
+            <div>
+
+                <h3>
+                    Skill Matching
+                </h3>
+
+                <p>
+                    Find skills that match the job requirements.
+                </p>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="feature">
+
+            <div class="feature-icon">
+                ✓
+            </div>
+
+            <div>
+
+                <h3>
+                    Missing Skills
+                </h3>
+
+                <p>
+                    Identify skills that you need to improve.
+                </p>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="feature">
+
+            <div class="feature-icon">
+                ✓
+            </div>
+
+            <div>
+
+                <h3>
+                    AI Score
+                </h3>
+
+                <p>
+                    Get a resume and job similarity score.
+                </p>
+
+            </div>
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer>
+
+        <p>
+            AI Resume Scoring & Job Matching System
+        </p>
+
+        <p>
+            B.Tech Mini Project
+        </p>
+
+    </footer>
+
+
+</main>
+
+
+
+<!-- ================= JAVASCRIPT ================= -->
+
+<script>
+
+
+/* ================= OPEN FILE SELECTOR ================= */
+
+function openFileSelector() {
+
+    document
+        .getElementById("resume")
+        .click();
+
+}
+
+
+
+/* ================= SHOW FILE NAME ================= */
+
+function showFileName() {
+
+    const fileInput =
+        document.getElementById("resume");
+
+    const fileName =
+        document.getElementById("fileName");
+
+    const uploadArea =
+        document.getElementById("uploadArea");
+
+
+    if (fileInput.files.length > 0) {
+
+        const file =
+            fileInput.files[0];
+
+        fileName.textContent =
+            "Selected: " + file.name;
+
+        uploadArea.classList.add(
+            "file-selected"
+        );
+
+    }
+
+}
+
+
+
+/* ================= STEP 1 ================= */
+
+function stepOne() {
+
+    document
+        .getElementById("resume-form")
+        .scrollIntoView({
+            behavior: "smooth"
+        });
+
+
+    setTimeout(function () {
+
+        document
+            .getElementById("resume")
+            .click();
+
+    }, 600);
+
+}
+
+
+
+/* ================= STEP 2 ================= */
+
+function stepTwo() {
+
+    document
+        .getElementById("resume-form")
+        .scrollIntoView({
+            behavior: "smooth"
+        });
+
+
+    setTimeout(function () {
+
+        document
+            .getElementById("job_description")
+            .focus();
+
+    }, 600);
+
+}
+
+
+
+/* ================= STEP 3 ================= */
+
+function stepThree() {
+
+    document
+        .getElementById("resume-form")
+        .scrollIntoView({
+            behavior: "smooth"
+        });
+
+
+    setTimeout(function () {
+
+        const form =
+            document.getElementById("resumeForm");
+
+        const resume =
+            document.getElementById("resume");
+
+        const jobTitle =
+            document.getElementById("job_title");
+
+        const jobDescription =
+            document.getElementById(
+                "job_description"
+            );
+
+
+        if (!jobTitle.value.trim()) {
+
+            jobTitle.focus();
+
+            alert(
+                "Please enter the Job Title first."
+            );
+
+            return;
+
+        }
+
+
+        if (!resume.files.length) {
+
+            resume.click();
+
+            return;
+
+        }
+
+
+        if (!jobDescription.value.trim()) {
+
+            jobDescription.focus();
+
+            alert(
+                "Please enter the Job Description."
+            );
+
+            return;
+
+        }
+
+
+        form.submit();
+
+    }, 600);
+
+}
+
+
+
+/* ================= DRAG & DROP ================= */
+
+const uploadArea =
+    document.getElementById("uploadArea");
+
+
+uploadArea.addEventListener(
+    "dragover",
+    function(event) {
+
+        event.preventDefault();
+
+        uploadArea.classList.add(
+            "dragover"
+        );
+
+    }
+);
+
+
+uploadArea.addEventListener(
+    "dragleave",
+    function() {
+
+        uploadArea.classList.remove(
+            "dragover"
+        );
+
+    }
+);
+
+
+uploadArea.addEventListener(
+    "drop",
+    function(event) {
+
+        event.preventDefault();
+
+        uploadArea.classList.remove(
+            "dragover"
+        );
+
+
+        const files =
+            event.dataTransfer.files;
+
+
+        if (
+            files.length > 0 &&
+            files[0].type === "application/pdf"
+        ) {
+
+            document
+                .getElementById("resume")
+                .files = files;
+
+            showFileName();
+
+        } else {
+
+            alert(
+                "Please upload a PDF file."
+            );
+
+        }
+
+    }
+);
+
+
+</script>
+
+
+</body>
+
+</html>

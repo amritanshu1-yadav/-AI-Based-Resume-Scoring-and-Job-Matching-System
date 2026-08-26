@@ -1,0 +1,251 @@
+ <!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Analysis History
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for(
+            'static',
+            filename='style.css'
+        ) }}"
+    >
+
+</head>
+
+
+<body>
+
+
+<!-- ================= NAVBAR ================= -->
+
+<nav>
+
+    <div class="logo">
+        AI Resume Matcher
+    </div>
+
+    <div class="nav-links">
+
+        <a href="/">
+            Home
+        </a>
+
+        <a href="/history">
+            History
+        </a>
+
+    </div>
+
+</nav>
+
+
+
+<!-- ================= MAIN ================= -->
+
+<div class="container">
+
+
+    <!-- ================= HISTORY HEADER ================= -->
+
+    <div class="history-header">
+
+        <div>
+
+            <h1>
+                Analysis History
+            </h1>
+
+            <p>
+                View your previous resume analyses.
+            </p>
+
+        </div>
+
+
+        <!-- CLEAR HISTORY BUTTON -->
+
+        {% if history %}
+
+        <form
+            action="/clear-history"
+            method="POST"
+            onsubmit="return confirmClearHistory();"
+        >
+
+            <button
+                type="submit"
+                class="clear-history-btn"
+            >
+
+                🗑 Clear History
+
+            </button>
+
+        </form>
+
+        {% endif %}
+
+    </div>
+
+
+
+    <!-- ================= HISTORY TABLE ================= -->
+
+    {% if history %}
+
+
+    <div class="table-container">
+
+
+        <table>
+
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Resume
+                    </th>
+
+                    <th>
+                        Job
+                    </th>
+
+                    <th>
+                        Score
+                    </th>
+
+                    <th>
+                        Skill Score
+                    </th>
+
+                    <th>
+                        Similarity
+                    </th>
+
+                    <th>
+                        Date
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+
+                {% for item in history %}
+
+                <tr>
+
+                    <td>
+                        {{ item["resume_name"] }}
+                    </td>
+
+                    <td>
+                        {{ item["job_title"] }}
+                    </td>
+
+                    <td>
+
+                        <strong>
+                            {{ item["score"] }}%
+                        </strong>
+
+                    </td>
+
+                    <td>
+                        {{ item["skill_score"] }}%
+                    </td>
+
+                    <td>
+                        {{ item["similarity_score"] }}%
+                    </td>
+
+                    <td>
+                        {{ item["created_at"] }}
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+
+            </tbody>
+
+
+        </table>
+
+
+    </div>
+
+
+    {% else %}
+
+
+    <!-- ================= EMPTY HISTORY ================= -->
+
+    <div class="card empty-history">
+
+        <div class="empty-icon">
+            📋
+        </div>
+
+        <h2>
+            No Analysis History
+        </h2>
+
+        <p>
+            You have not analyzed any resumes yet.
+        </p>
+
+        <a
+            href="/"
+            class="button"
+        >
+            Analyze Resume
+        </a>
+
+    </div>
+
+
+    {% endif %}
+
+
+</div>
+
+
+
+<!-- ================= JAVASCRIPT ================= -->
+
+<script>
+
+function confirmClearHistory() {
+
+    return confirm(
+        "Are you sure you want to delete all resume analysis history?"
+    );
+
+}
+
+</script>
+
+
+</body>
+
+</html>
